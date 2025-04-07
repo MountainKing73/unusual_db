@@ -39,13 +39,13 @@ async fn main() -> std::io::Result<()> {
             debug!("db: {:?}", db);
         } else if request == "version" {
             debug!("get version");
-            let msg = String::from("version=Dumb Key-Value Store 1.0\n");
+            let msg = String::from("version=Dumb Key-Value Store 1.0");
             tx.send((msg.into_bytes(), addr)).await.unwrap();
         } else {
             debug!("Received retrieve: {}", request);
             let value = db.get(request);
             if value.is_some() {
-                let msg = format!("{}={}\n", request, value.unwrap());
+                let msg = format!("{}={}", request, value.unwrap());
                 tx.send((msg.into_bytes(), addr)).await.unwrap();
             }
         }
