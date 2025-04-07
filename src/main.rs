@@ -33,9 +33,9 @@ async fn main() -> std::io::Result<()> {
         let request = request.trim();
         if request.contains('=') {
             debug!("Received insert: {}", request);
-            let parts: Vec<&str> = request.trim().split('=').collect();
-            debug!("parts: {:?}", parts);
-            db.insert(parts[0].to_string(), parts[1].to_string());
+            let (key, value) = request.trim().split_once('=').unwrap();
+            debug!("key: {:?} value: {}", key, value);
+            db.insert(key.to_string(), value.to_string());
             debug!("db: {:?}", db);
         } else if request == "version" {
             debug!("get version");
