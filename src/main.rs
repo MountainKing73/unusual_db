@@ -36,7 +36,6 @@ async fn main() -> std::io::Result<()> {
             let (key, value) = request.trim().split_once('=').unwrap();
             debug!("key: {:?} value: {}", key, value);
             db.insert(key.to_string(), value.to_string());
-            debug!("db: {:?}", db);
         } else if request == "version" {
             debug!("get version");
             let msg = String::from("version=Dumb Key-Value Store 1.0");
