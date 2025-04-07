@@ -8,6 +8,8 @@ use tokio::sync::mpsc;
 
 #[tokio::main]
 async fn main() -> std::io::Result<()> {
+    env_logger::init();
+
     let mut db: HashMap<String, String> = HashMap::new();
 
     let socket = UdpSocket::bind("0.0.0.0:8080".parse::<SocketAddr>().unwrap()).await?;
