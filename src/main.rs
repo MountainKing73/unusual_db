@@ -21,7 +21,7 @@ async fn main() -> std::io::Result<()> {
     tokio::spawn(async move {
         while let Some((bytes, addr)) = rx.recv().await {
             let len = s.send_to(&bytes, &addr).await.unwrap();
-            debug!("{:?} bytes sent", len);
+            debug!("{:?} bytes sent: {:?}", len, &bytes[..len]);
         }
     });
 
