@@ -25,8 +25,8 @@ async fn main() -> std::io::Result<()> {
         }
     });
 
-    let mut buf = [0; 1024];
     loop {
+        let mut buf = [0; 1024];
         let (len, addr) = r.recv_from(&mut buf).await?;
         debug!("{:?} bytes received from {:?}: {:?}", len, addr, &buf);
         let request = str::from_utf8(&buf[..len]).unwrap().to_string();
