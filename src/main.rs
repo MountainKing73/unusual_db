@@ -35,11 +35,10 @@ async fn main() -> std::io::Result<()> {
             &buf[..len]
         );
         let request = str::from_utf8(&buf[..len]).unwrap().to_string();
-        let request = request.trim();
         debug!("request: {}", request);
         if request.contains('=') {
             debug!("Received insert: {}", request);
-            let (key, value) = request.trim().split_once('=').unwrap();
+            let (key, value) = request.split_once('=').unwrap();
             debug!("key: {:?} value: {}", key, value);
             db.insert(key.to_string(), value.to_string());
         } else if request == "version" {
@@ -48,7 +47,7 @@ async fn main() -> std::io::Result<()> {
             tx.send((msg.into_bytes(), addr)).await.unwrap();
         } else {
             debug!("Received retrieve: {}", request);
-            let value = db.get(request);
+            let value = db.get(&request);
             if value.is_some() {
                 let msg = format!("{}={}", request, value.unwrap());
                 tx.send((msg.into_bytes(), addr)).await.unwrap();
