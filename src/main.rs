@@ -31,6 +31,7 @@ async fn main() -> std::io::Result<()> {
         debug!("{:?} bytes received from {:?}", len, addr);
         let request = str::from_utf8(&buf[..len]).unwrap().to_string();
         let request = request.trim();
+        debug!("request: {}", request);
         if request.contains('=') {
             debug!("Received insert: {}", request);
             let (key, value) = request.trim().split_once('=').unwrap();
