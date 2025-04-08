@@ -21,14 +21,19 @@ async fn main() -> std::io::Result<()> {
     tokio::spawn(async move {
         while let Some((bytes, addr)) = rx.recv().await {
             let len = s.send_to(&bytes, &addr).await.unwrap();
-            debug!("{:?} bytes sent: {:?}", len, &bytes[..len]);
+            debug!("{:?} bytes sent: {:?}", len, &bytes);
         }
     });
 
     loop {
         let mut buf = [0; 1024];
         let (len, addr) = r.recv_from(&mut buf).await?;
-        debug!("{:?} bytes received from {:?}: {:?}", len, addr, &buf);
+        debug!(
+            "{:?} bytes received from {:?}: {:?}",
+            len,
+            addr,
+            &buf[..len]
+        );
         let request = str::from_utf8(&buf[..len]).unwrap().to_string();
         let request = request.trim();
         debug!("request: {}", request);
